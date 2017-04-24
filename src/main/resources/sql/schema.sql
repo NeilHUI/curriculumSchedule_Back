@@ -22,3 +22,21 @@ CREATE TABLE `appointment` (
   PRIMARY KEY (`book_id`, `student_id`),
   INDEX `idx_appoint_time` (`appoint_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='预约图书表';
+
+CREATE TABLE `class_course` (
+  `class_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '课程id',
+  `term` varchar(50) NOT NULL  COMMENT '学期',
+  `listContent` varchar(50) NOT NULL COMMENT '课程名',
+  `week` varchar(50) NOT NULL COMMENT '星期',
+  `lesson`varchar(50) NOT NULL COMMENT '节数',
+  `info`varchar(200) NOT NULL COMMENT '课程明细',
+  PRIMARY KEY (`class_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8 COMMENT='通过课程查询课表';
+
+CREATE TABLE `list_info` (
+  `list_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '列表信息id',
+  `term` varchar(50) NOT NULL  COMMENT '学期',
+  `list_content` varchar(200) NOT NULL COMMENT '课程名',
+  `type` bigint(20) NOT NULL  COMMENT '列表类型',
+  PRIMARY KEY (`list_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='列表信息表';
