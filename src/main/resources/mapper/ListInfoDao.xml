@@ -5,8 +5,8 @@
 <mapper namespace="com.xjtu.dao.ListInfoDao">
     <insert id="insertCourseList">
         <!-- ignore 主键冲突，报错 -->
-        INSERT ignore INTO list_info (term, list_content,type)
-        VALUES (#{term}, #{listContent},#{type})
+        INSERT ignore INTO list_info (term, list_content,type,value)
+        VALUES (#{term}, #{listContent},#{type},#{value})
     </insert>
 
     <select id="queryAllList" resultType="ListInfo">

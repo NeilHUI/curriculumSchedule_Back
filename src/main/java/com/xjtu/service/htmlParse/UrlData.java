@@ -1,5 +1,7 @@
 package com.xjtu.service.htmlParse;
 
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -16,11 +18,17 @@ import java.util.Scanner;
 import java.util.Date;
 import java.lang.StringBuilder;
 import java.lang.Thread;
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+
 @Service
 public class UrlData {
+	@Autowired
+	private HttpServletRequest request;
+
 	public String m_head;
 	public String m_cokie;
-	
+	//final String urlFinal = "http://jwxt.cqtbi.edu.cn";
 	public void GetClassSelImage(String param)
 	{
 		param = param.substring(param.lastIndexOf("src="));
@@ -28,14 +36,15 @@ public class UrlData {
 		param = param.substring(param.indexOf("='")+2,param.indexOf("'>"));
 		System.out.println(">>>>"+param);
 
-		String u = "http://jwgl.lnc.edu.cn/ZNPK/"+param;
-		String r = "http://jwgl.lnc.edu.cn/ZNPK/KBFB_ClassSel_rpt.aspx";
+		String u = "http://jwxt.cqtbi.edu.cn/ZNPK/"+param;
+		String r = "http://jwxt.cqtbi.edu.cn/ZNPK/KBFB_ClassSel_rpt.aspx";
 		_GetImage(m_cokie, u, r);
 	}
 
 	public void GetCookie()
 	{
-		m_head = "http://jwgl.lnc.edu.cn";
+		//m_head = "http://jwgl.lnc.edu.cn";
+		m_head = "http://jwxt.cqtbi.edu.cn";
 		m_cokie = _GetCookie();
 	}
 
@@ -235,7 +244,7 @@ public class UrlData {
 		return co;
 	}
 
-	private void _GetImage(String cok, String u, String r) 
+	private void _GetImage(String cok, String u, String r)
 	{
 		
 		try {
@@ -245,10 +254,22 @@ public class UrlData {
 			conn.setRequestProperty("Referer", r);
 			InputStream in = conn.getInputStream();
 			//Bitmap bitmap = BitmapFactory.decodeStream(in);
-			File file = new File("image.jpg");
-			if (!file.exists()) {
+			//得到服务器中保存文件的绝对路径
+
+
+
+			String filePath = request.getSession().getServletContext().getRealPath("/") + "resources/"
+					+ m_cokie+".jpg";
+			File file = new File(filePath);
+
+
+
+			/*if (!file.exists()) {
 				file.createNewFile();
-			}
+			}*/
+
+
+
 			FileOutputStream fo = new FileOutputStream(file);
 			byte[] buf = new byte[1024];
 			int length = 0;
@@ -263,4 +284,5 @@ public class UrlData {
 			e.printStackTrace();
 		}
 	}
+
 }

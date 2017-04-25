@@ -38,7 +38,16 @@ public class ClassInfoServiceImpl implements ClassInfoService {
     @Autowired
     private ListInfoDao listInfoDao;
 
+    @Autowired
+    private ListInfo listInfo;
 
+
+    @Override
+    public String code() {
+        return urlData.m_cokie+".jpg";
+    }
+
+    //
     @Override
     public Map<String, String> queryList(String term, int type) {
         Map<String, String> map = new HashMap<>();
@@ -46,16 +55,26 @@ public class ClassInfoServiceImpl implements ClassInfoService {
         lists = listInfoDao.queryAllList(term, type);
         if (lists.size() == 0) {
             urlData.GetCookie();
-            urlData.GetImage(1);
+           // urlData.GetImage(1,);
             //本地list为空，访问网络
             //1得验证码 ，2得到list
             String string = urlData.GetXNXQKC(term, "");
             map = htmlParseJson.OptiontoList(string);
+            //存进数据库,速度较慢，后期使用非关系数据库
+
+            for (String s : map.keySet()) {
+                listInfo.setTerm(term);
+                listInfo.setListContent(map.get(s));
+                listInfo.setValue(s);
+                listInfo.setType(type);
+                listInfoDao.insertCourseList(listInfo);
+            }
         } else {
             for (ListInfo listIn : lists) {
                 map.put(listIn.getListContent(), listIn.getValue());
             }
         }
+
 
         return map;
     }

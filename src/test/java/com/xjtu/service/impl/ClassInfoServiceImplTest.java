@@ -29,6 +29,9 @@ public class ClassInfoServiceImplTest extends BaseTest {
 
     @Test
     public void queryByCourse() throws Exception {
+
+
+
     }
 
 }

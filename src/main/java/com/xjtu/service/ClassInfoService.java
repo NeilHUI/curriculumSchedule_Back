@@ -12,6 +12,11 @@ import java.util.Map;
  */
 public interface ClassInfoService {
 
+    /**
+     * 得到验证码id
+     * @return string验证码id
+     */
+    String code();
 
     /**
      * 查询列表内容
