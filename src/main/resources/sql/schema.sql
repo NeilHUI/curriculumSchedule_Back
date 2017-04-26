@@ -40,3 +40,12 @@ CREATE TABLE `list_info` (
   `type` bigint(20) NOT NULL  COMMENT '列表类型',
   PRIMARY KEY (`list_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='列表信息表';
+CREATE TABLE `teacher_course` (
+  `class_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '课程id',
+  `term` varchar(50) NOT NULL  COMMENT '学期',
+  `teacher` varchar(50) NOT NULL COMMENT '教师名',
+  `week` varchar(50) NOT NULL COMMENT '星期',
+  `lesson`varchar(50) NOT NULL COMMENT '节数',
+  `info`varchar(200) NOT NULL COMMENT '课程明细',
+  PRIMARY KEY (`class_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8 COMMENT='通过教师名查询课表';

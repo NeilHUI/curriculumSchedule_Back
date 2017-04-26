@@ -19,6 +19,8 @@ import java.util.Date;
 public class UrlDataServiceImpl implements UrlDataService {
 
 
+
+
     private HttpServletRequest request;
 
     public String m_head;
