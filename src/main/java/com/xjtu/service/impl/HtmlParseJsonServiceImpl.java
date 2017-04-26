@@ -1,8 +1,9 @@
-package com.xjtu.service.htmlParse;
+package com.xjtu.service.impl;
 
 import com.xjtu.entity.ClassInfoA;
 import com.xjtu.entity.ClassInfoByCourse;
 import com.xjtu.entity.ClassInfoC;
+import com.xjtu.service.HtmlParseJsonService;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
@@ -11,18 +12,18 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.*;
 
+
 /**
- * Created by Administrator on 2017/4/16.
+ * Created by llh.xjtu on 17-4-26.
+ * 移植原项目，简单分离
  */
 @Service
-public class HtmlParseJson {
-
-    //获取格式一的数据---------教师课表
-    public JSONObject getClassInfo1(String fileName) throws IOException {
-//        File file = new File(fileName);
+public class HtmlParseJsonServiceImpl implements HtmlParseJsonService{
+    @Override
+    public JSONObject getClassInfo1(String fileName) {
+        //        File file = new File(fileName);
         Document dInfo = Jsoup.parse(fileName);
         Elements eInfo = dInfo.select("table").select("tr");
         ArrayList<ClassInfoC> list = new ArrayList<ClassInfoC>();
@@ -79,10 +80,9 @@ public class HtmlParseJson {
         return jsonObject;
     }
 
-
-    //获取格式一的数据---------课程课表
-    public List<ClassInfoByCourse> getClassInfo2(String fileName) throws IOException {
-//        File file = new File(fileName);
+    @Override
+    public List<ClassInfoByCourse> getClassInfo2(String fileName) {
+        //        File file = new File(fileName);
 //        Document dInfo = Jsoup.parse(file, "UTF-8");
 
 
@@ -142,9 +142,9 @@ public class HtmlParseJson {
         return list;
     }
 
-    //获取格式一的数据---------教室课表
-    public JSONObject getClassInfo3(String fileName) throws IOException {
-//        File file = new File(fileName);
+    @Override
+    public JSONObject getClassInfo3(String fileName) {
+        //        File file = new File(fileName);
 //        Document dInfo = Jsoup.parse(file, "UTF-8");
         Document dInfo = Jsoup.parse(fileName);
         Elements eInfo = dInfo.select("table").select("tr");
@@ -202,9 +202,9 @@ public class HtmlParseJson {
         return jsonObject;
     }
 
-    //获取格式一的数据---------任选课表
-    public JSONObject getClassInfo4(String fileName) throws IOException {
-//        File file = new File(fileName);
+    @Override
+    public JSONObject getClassInfo4(String fileName) {
+        //        File file = new File(fileName);
 //        Document dInfo = Jsoup.parse(file, "UTF-8");
         Document dInfo = Jsoup.parse(fileName);
         Elements eInfo = dInfo.select("table").select("tr");
@@ -249,9 +249,8 @@ public class HtmlParseJson {
         return jsonObject;
     }
 
-    //下拉列表的html解析转成list
-    public Map<String, String> OptiontoList(String html) {
-
+    @Override
+    public Map<String, String> optiontoList(String html) {
         Document dname = Jsoup.parse(html);
         Elements script = dname.select("script");
         Document dname1 = Jsoup.parse(script.toString());
@@ -266,5 +265,4 @@ public class HtmlParseJson {
         }
         return map;
     }
-
 }

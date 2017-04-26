@@ -43,13 +43,7 @@
     </servlet-mapping>
 
 
-    <context-param>
-        <param-name>webAppRootKey</param-name>
-        <param-value>tansungWeb.root</param-value>
-    </context-param>
-    <listener>
-        <listener-class>org.springframework.web.util.WebAppRootListener</listener-class>
-    </listener>
+
     <!-- 默认显示的页面 -->
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>

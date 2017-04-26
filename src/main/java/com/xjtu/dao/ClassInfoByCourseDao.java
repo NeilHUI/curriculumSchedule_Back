@@ -12,7 +12,7 @@ public interface ClassInfoByCourseDao {
     /**
      * 添加课程进入数据库
      * @param classInfoByCourse
-     * @return
+     * @return 返回受影响行数
      */
     int insertCourse(ClassInfoByCourse classInfoByCourse);
 

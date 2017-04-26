@@ -5,18 +5,13 @@ import com.xjtu.entity.ClassInfoByCourse;
 import com.xjtu.enums.ListInfoStateEnum;
 import com.xjtu.exception.VerificationException;
 import com.xjtu.service.ClassInfoService;
-import com.xjtu.service.htmlParse.UrlData;
+import com.xjtu.service.UrlDataService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -34,12 +29,12 @@ public class QueryScheduleController {
     private ClassInfoService classInfoService;
 
     @Autowired
-    private UrlData urlData;
+    private UrlDataService urlData;
 
 
     @ResponseBody
-    @RequestMapping(value = "/courseList", method = RequestMethod.GET)
-    private Map<String, String> courseList(@RequestParam("term") String term) {
+    @RequestMapping(value = "/{term}/courseList", method = RequestMethod.GET)
+    private Map<String, String> courseList(@PathVariable("term") String term) {
         return classInfoService.queryList(term, ListInfoStateEnum.COURSE_TYPE.getState());
     }
 
@@ -69,9 +64,9 @@ public class QueryScheduleController {
 
     @ResponseBody
     @RequestMapping(value = "/code", method = RequestMethod.GET)
-    private String code(@CookieValue(value = "JSESSIONID") String cookiesId) {
-        urlData.GetCookie();
-        urlData.GetImage(1);
+    private String code() {
+
+
         return classInfoService.code();
 
     }

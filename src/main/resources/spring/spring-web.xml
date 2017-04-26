@@ -28,7 +28,7 @@
 
     -->
     <!--<mvc:resources location="/errorPage/"  mapping="/errorPage/**" />-->
-    <mvc:resources location="/resources/"  mapping="/resources/**" />
+   <!-- <mvc:resources location="/resources/"  mapping="/resources/**" />-->
     <!--<mvc:resources mapping="/css/**" location="WEB-INF/"/>-->
 
 

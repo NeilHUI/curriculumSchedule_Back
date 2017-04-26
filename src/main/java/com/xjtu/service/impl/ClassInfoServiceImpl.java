@@ -6,15 +6,14 @@ import com.xjtu.entity.ClassInfoByCourse;
 import com.xjtu.entity.ListInfo;
 import com.xjtu.exception.VerificationException;
 import com.xjtu.service.ClassInfoService;
-import com.xjtu.service.htmlParse.HtmlParseJson;
-import com.xjtu.service.htmlParse.UrlData;
+import com.xjtu.service.HtmlParseJsonService;
+import com.xjtu.service.UrlDataService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,10 +31,10 @@ public class ClassInfoServiceImpl implements ClassInfoService {
     private ClassInfoByCourseDao classInfoByCourseDao;
 
     @Autowired
-    private UrlData urlData;
+    private UrlDataService urlDataService;
 
     @Autowired
-    private HtmlParseJson htmlParseJson;
+    private HtmlParseJsonService htmlParseJsonService;
 
     @Autowired
     private ListInfoDao listInfoDao;
@@ -48,7 +47,9 @@ public class ClassInfoServiceImpl implements ClassInfoService {
 
     @Override
     public String code() {
-        return urlData.m_cokie+".jpg";
+        urlDataService.getCookie();
+        urlDataService.getImage(1);
+        return urlDataService.getSessionId()+".jpg";
     }
 
     //
@@ -59,12 +60,12 @@ public class ClassInfoServiceImpl implements ClassInfoService {
         List<ListInfo> lists = new ArrayList<>();
         lists = listInfoDao.queryAllList(term, type);
         if (lists.size() == 0) {
-            urlData.GetCookie();
-           // urlData.GetImage(1,);
+            urlDataService.getCookie();
+           // urlData.getImage(1,);
             //本地list为空，访问网络
             //1得验证码 ，2得到list
-            String string = urlData.GetXNXQKC(term, "");
-            map = htmlParseJson.OptiontoList(string);
+            String string = urlDataService.getXNXQKC(term, "");
+            map = htmlParseJsonService.optiontoList(string);
             //存进数据库,速度较慢，后期使用非关系数据库
 
             for (String s : map.keySet()) {
@@ -91,6 +92,7 @@ public class ClassInfoServiceImpl implements ClassInfoService {
         List<ClassInfoByCourse> lists = new ArrayList<>();
         //查询本地数据库看是否有数据
         lists = classInfoByCourseDao.queryByKeyWithCourse(term, course);
+        logger.info("term---course:",term+"---"+course);
         if (lists.size() != 0) {
             //本地数据有数据直接返回数据
             return lists;
@@ -100,8 +102,8 @@ public class ClassInfoServiceImpl implements ClassInfoService {
 
 
             try {
-                String string = urlData.GetKBFBLessonSel(term, course, type, yzm);
-                lists = htmlParseJson.getClassInfo2(string);
+                String string = urlDataService.getKBFBLessonSel(term, course, type, yzm);
+                lists = htmlParseJsonService.getClassInfo2(string);
                 //往数据库存
                 for (ClassInfoByCourse infoByCourse : lists) {
                     infoByCourse.setTerm(term);
@@ -112,8 +114,6 @@ public class ClassInfoServiceImpl implements ClassInfoService {
                 logger.error("VerificationException");
                 throw new VerificationException("验证码错误");
 
-            }catch (IOException e) {
-                e.printStackTrace();
             }
 
 

@@ -34,4 +34,6 @@ public interface ClassInfoService {
      * @return
      */
     List<ClassInfoByCourse> queryByCourse(String term, String course, String yzm);
+
+
 }
