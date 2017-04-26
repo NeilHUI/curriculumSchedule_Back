@@ -18,7 +18,7 @@ import java.util.Date;
 @Service
 public class UrlDataServiceImpl implements UrlDataService {
 
-    @Autowired
+
     private HttpServletRequest request;
 
     public String m_head;
