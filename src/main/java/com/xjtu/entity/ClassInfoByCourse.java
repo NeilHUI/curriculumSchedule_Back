@@ -4,7 +4,7 @@ package com.xjtu.entity;
  * Created by llh.xjtu on 17-4-24.
  * 通过课程信息查询课程类
  */
-public class ClassInfoByCourse {
+public class ClassInfoByCourse implements Comparable<ClassInfoByCourse>{
 
     //学期
     private String term;
@@ -55,6 +55,30 @@ public class ClassInfoByCourse {
 
     public void setInfo(String info) {
         this.info = info;
+    }
+
+
+    @Override
+    public int compareTo(ClassInfoByCourse o) {
+        int w1=Integer.parseInt(this.week);
+        int w2=Integer.parseInt(o.getWeek());
+        //先按星期进行排列；
+        if(w1>w2){
+            return (w1-w2);
+        }
+        if (w1<w2){
+            return (w1-w2);
+        }
+        //按第几节课进行排序
+        int class1=Integer.parseInt(this.lesson);
+        int class2=Integer.parseInt(o.getLesson());
+        if (class1>class2){
+            return (class1-class2);
+        }
+        if (class1<class2){
+            return (class1-class2);
+        }
+        return  0;
     }
 
     @Override

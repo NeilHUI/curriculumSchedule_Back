@@ -5,4 +5,6 @@ package com.xjtu.entity;
  * 通过教师姓名查询类
  */
 public class ClassInfoByTeacher {
+
+
 }

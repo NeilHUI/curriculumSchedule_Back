@@ -1,9 +1,13 @@
 package com.xjtu.entity;
 
+import org.springframework.stereotype.Component;
+
 /**
  * Created by llh.xjtu on 17-4-24.
  * 课程课表查询类
+ * //去除
  */
+@Component
 public class ClassInfoC implements Comparable<ClassInfoC>{
 
     private String week;

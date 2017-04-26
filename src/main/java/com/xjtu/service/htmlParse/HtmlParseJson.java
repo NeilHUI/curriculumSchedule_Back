@@ -1,6 +1,7 @@
 package com.xjtu.service.htmlParse;
 
 import com.xjtu.entity.ClassInfoA;
+import com.xjtu.entity.ClassInfoByCourse;
 import com.xjtu.entity.ClassInfoC;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,10 +12,7 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Administrator on 2017/4/16.
@@ -83,12 +81,14 @@ public class HtmlParseJson {
 
 
     //获取格式一的数据---------课程课表
-    public JSONObject getClassInfo2(String fileName) throws IOException {
+    public List<ClassInfoByCourse> getClassInfo2(String fileName) throws IOException {
 //        File file = new File(fileName);
 //        Document dInfo = Jsoup.parse(file, "UTF-8");
+
+
         Document dInfo = Jsoup.parse(fileName);
         Elements eInfo = dInfo.select("table").select("tr");
-        ArrayList<ClassInfoC> list = new ArrayList<ClassInfoC>();
+        ArrayList<ClassInfoByCourse> list = new ArrayList<ClassInfoByCourse>();
         for (int i = 5; i < eInfo.size(); i++) {
             Elements eInfo1 = eInfo.get(i).select("td");
             if (eInfo1.text().toString().equals("注1：")) {
@@ -97,7 +97,7 @@ public class HtmlParseJson {
             if (eInfo1.size() == 9) {
                 for (int j = 2; j < eInfo1.size(); j++) {
                     if (eInfo1.get(j).text().length() != 0) {
-                        ClassInfoC classInfo1 = new ClassInfoC();
+                        ClassInfoByCourse classInfo1 = new ClassInfoByCourse();
                         classInfo1.setWeek(String.valueOf(j - 1));
                         classInfo1.setLesson(String.valueOf(i - 4));
                         classInfo1.setInfo(eInfo1.get(j).text());
@@ -107,7 +107,7 @@ public class HtmlParseJson {
             } else {
                 for (int j = 1; j < eInfo1.size(); j++) {
                     if (eInfo1.get(j).text().length() != 0) {
-                        ClassInfoC classInfo1 = new ClassInfoC();
+                        ClassInfoByCourse classInfo1 = new ClassInfoByCourse();
                         classInfo1.setWeek(String.valueOf(j));
                         classInfo1.setLesson(String.valueOf(i - 4));
                         classInfo1.setInfo(eInfo1.get(j).text());
@@ -124,7 +124,7 @@ public class HtmlParseJson {
             System.out.println(classInfo1.getInfo()+"----课程："+classInfo1.getLesson()+"----星期："+classInfo1.getWeek());
         }*/
 
-        //获取部门，教师，性别，职称
+        /*//获取部门，教师，性别，职称
         String infoTitle = "";
         try {
             infoTitle = eInfo.get(3).select("td").text();
@@ -137,9 +137,9 @@ public class HtmlParseJson {
             jsonObject.put(infoTitle, list);
         } catch (JSONException e) {
             e.printStackTrace();
-        }
+        }*/
         //System.out.println(jsonObject.toString());
-        return jsonObject;
+        return list;
     }
 
     //获取格式一的数据---------教室课表

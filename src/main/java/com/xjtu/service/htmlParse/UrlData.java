@@ -1,6 +1,7 @@
 package com.xjtu.service.htmlParse;
 
 
+import com.xjtu.exception.VerificationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Service
 public class UrlData {
+
 	@Autowired
 	private HttpServletRequest request;
 
@@ -222,7 +224,14 @@ public class UrlData {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return String.valueOf(tmp);
+
+
+		String resultString = String.valueOf(tmp);
+		if(resultString.substring(35,40).equals("验证码错误")){
+			throw new VerificationException("验证码错误");
+		}
+
+		return resultString;
 	}
 
 	private String _GetCookie() 

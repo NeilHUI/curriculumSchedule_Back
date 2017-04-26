@@ -4,6 +4,7 @@ import com.xjtu.dao.ClassInfoByCourseDao;
 import com.xjtu.dao.ListInfoDao;
 import com.xjtu.entity.ClassInfoByCourse;
 import com.xjtu.entity.ListInfo;
+import com.xjtu.exception.VerificationException;
 import com.xjtu.service.ClassInfoService;
 import com.xjtu.service.htmlParse.HtmlParseJson;
 import com.xjtu.service.htmlParse.UrlData;
@@ -11,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,6 +44,8 @@ public class ClassInfoServiceImpl implements ClassInfoService {
     private ListInfo listInfo;
 
 
+
+
     @Override
     public String code() {
         return urlData.m_cokie+".jpg";
@@ -49,6 +53,7 @@ public class ClassInfoServiceImpl implements ClassInfoService {
 
     //
     @Override
+    @Transactional
     public Map<String, String> queryList(String term, int type) {
         Map<String, String> map = new HashMap<>();
         List<ListInfo> lists = new ArrayList<>();
@@ -79,7 +84,9 @@ public class ClassInfoServiceImpl implements ClassInfoService {
         return map;
     }
 
+
     @Override
+    @Transactional
     public List<ClassInfoByCourse> queryByCourse(String term, String course, String yzm) {
         List<ClassInfoByCourse> lists = new ArrayList<>();
         //查询本地数据库看是否有数据
@@ -90,11 +97,22 @@ public class ClassInfoServiceImpl implements ClassInfoService {
         } else {
             //本地数据库无数据查找网络端，并返回
             String type = "1";
-            String string = urlData.GetKBFBLessonSel(term, course, type, yzm);
-            try {
-                htmlParseJson.getClassInfo1(string);
 
-            } catch (IOException e) {
+
+            try {
+                String string = urlData.GetKBFBLessonSel(term, course, type, yzm);
+                lists = htmlParseJson.getClassInfo2(string);
+                //往数据库存
+                for (ClassInfoByCourse infoByCourse : lists) {
+                    infoByCourse.setTerm(term);
+                    infoByCourse.setCourse(course);
+                    classInfoByCourseDao.insertCourse(infoByCourse);
+                }
+            } catch (VerificationException e1) {
+                logger.error("VerificationException");
+                throw new VerificationException("验证码错误");
+
+            }catch (IOException e) {
                 e.printStackTrace();
             }
 
