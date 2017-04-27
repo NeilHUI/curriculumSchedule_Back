@@ -12,8 +12,6 @@ public class Result<T> {
     private String error;// 错误信息
 
     //成功时的构造器
-
-
     public Result(boolean success, T data) {
         this.success = success;
         this.data = data;

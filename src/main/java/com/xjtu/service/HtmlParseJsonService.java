@@ -1,6 +1,7 @@
 package com.xjtu.service;
 
 import com.xjtu.entity.ClassInfoByCourse;
+import com.xjtu.entity.ListResult;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -54,5 +55,5 @@ public interface HtmlParseJsonService {
      * @param html
      * @return
      */
-    Map<String, String> optiontoList(String html);
+    List<ListResult> optiontoList(String html);
 }

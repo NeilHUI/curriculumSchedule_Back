@@ -2,7 +2,9 @@ package com.xjtu.web;
 
 import com.xjtu.dto.Result;
 import com.xjtu.entity.ClassInfoByCourse;
+import com.xjtu.entity.ListResult;
 import com.xjtu.enums.ListInfoStateEnum;
+import com.xjtu.exception.NoLocalDataException;
 import com.xjtu.exception.VerificationException;
 import com.xjtu.service.ClassInfoService;
 import com.xjtu.service.UrlDataService;
@@ -34,7 +36,7 @@ public class QueryScheduleController {
 
     @ResponseBody
     @RequestMapping(value = "/{term}/courseList", method = RequestMethod.GET)
-    private Map<String, String> courseList(@PathVariable("term") String term) {
+    private List<ListResult> courseList(@PathVariable("term") String term) {
         return classInfoService.queryList(term, ListInfoStateEnum.COURSE_TYPE.getState());
     }
 
@@ -55,7 +57,12 @@ public class QueryScheduleController {
             listResult = classInfoService.queryByCourse(term, course, yzm);
         } catch (VerificationException e1) {
             return new Result<>(false,"验证码错误");
-        } catch (Exception e) {
+        } catch (NoLocalDataException e2) {
+            //当无本地数据时，请求获取验证码
+            String codeId = classInfoService.code();
+            return new Result<>(false,"无本地数据请输入验证码#"+codeId);
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
         System.out.println(obj.keySet());

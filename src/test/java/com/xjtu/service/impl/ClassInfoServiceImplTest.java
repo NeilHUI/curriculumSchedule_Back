@@ -1,10 +1,12 @@
 package com.xjtu.service.impl;
 
 import com.xjtu.BaseTest;
+import com.xjtu.entity.ListResult;
 import com.xjtu.service.ClassInfoService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,10 +22,11 @@ public class ClassInfoServiceImplTest extends BaseTest {
 
     @Test
     public void queryList() throws Exception {
-        Map<String,String> map = new HashMap<>();
-        map = classInfoService.queryList("setTerm",1);
-        for (String s : map.keySet()) {
-            System.out.println(s+"--"+map.get(s));
+        List<ListResult> listResults = new ArrayList<>();
+        listResults = classInfoService.queryList("setTerm",1);
+
+        for (ListResult listResult : listResults) {
+            System.out.println(listResult);
         }
     }
 

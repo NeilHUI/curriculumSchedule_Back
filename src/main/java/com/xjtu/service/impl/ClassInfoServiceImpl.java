@@ -4,6 +4,8 @@ import com.xjtu.dao.ClassInfoByCourseDao;
 import com.xjtu.dao.ListInfoDao;
 import com.xjtu.entity.ClassInfoByCourse;
 import com.xjtu.entity.ListInfo;
+import com.xjtu.entity.ListResult;
+import com.xjtu.exception.NoLocalDataException;
 import com.xjtu.exception.VerificationException;
 import com.xjtu.service.ClassInfoService;
 import com.xjtu.service.HtmlParseJsonService;
@@ -28,6 +30,9 @@ public class ClassInfoServiceImpl implements ClassInfoService {
     private Logger logger = LoggerFactory.getLogger(ClassInfoService.class);
 
     @Autowired
+    private ListResult listResult;
+
+    @Autowired
     private ClassInfoByCourseDao classInfoByCourseDao;
 
     @Autowired
@@ -43,73 +48,87 @@ public class ClassInfoServiceImpl implements ClassInfoService {
     private ListInfo listInfo;
 
 
-
-
     @Override
     public String code() {
-        urlDataService.getCookie();
+        //如果cookie为空则获取cookie
+        if (urlDataService.getSessionId() == null) {
+            urlDataService.getCookie();
+        }
         urlDataService.getImage(1);
-        return urlDataService.getSessionId()+".jpg";
+        return urlDataService.getSessionId() + ".jpg";
     }
 
-    //
+
     @Override
-    @Transactional
-    public Map<String, String> queryList(String term, int type) {
-        Map<String, String> map = new HashMap<>();
-        List<ListInfo> lists = new ArrayList<>();
-        lists = listInfoDao.queryAllList(term, type);
-        if (lists.size() == 0) {
+    public List<ListResult> queryList(String term, int type) {
+        List<ListInfo> INfoLists = new ArrayList<>();
+        List<ListResult> listResults = new ArrayList<>();
+        INfoLists = listInfoDao.queryAllList(term, type);
+        if (INfoLists.size() == 0) {
             urlDataService.getCookie();
-           // urlData.getImage(1,);
+            // urlData.getImage(1,);
             //本地list为空，访问网络
             //1得验证码 ，2得到list
             String string = urlDataService.getXNXQKC(term, "");
-            map = htmlParseJsonService.optiontoList(string);
+            listResults = htmlParseJsonService.optiontoList(string);
             //存进数据库,速度较慢，后期使用非关系数据库
-
-            for (String s : map.keySet()) {
-                listInfo.setTerm(term);
-                listInfo.setListContent(map.get(s));
-                listInfo.setValue(s);
-                listInfo.setType(type);
-                listInfoDao.insertCourseList(listInfo);
-            }
+            int num = insertList(term, type, listResults);
+            logger.info("insert list num:", num);
         } else {
-            for (ListInfo listIn : lists) {
-                map.put(listIn.getListContent(), listIn.getValue());
+            for (int i = 0; i < INfoLists.size(); i++) {
+                listResult.setListName(INfoLists.get(i).getListContent());
+                listResult.setListValue(INfoLists.get(i).getValue());
+                listResults.add(listResult);
             }
         }
 
+        return listResults;
+    }
 
-        return map;
+
+    /**
+     * 将数据插入数据库，并返回受影响行数
+     *
+     * @param term      学期
+     * @param type      类型
+     * @param listInfos
+     * @return 返回受影响行数
+     */
+    @Transactional
+    private int insertList(String term, int type, List<ListResult> listInfos) {
+        int num = 0;
+        for (ListResult result : listInfos) {
+            listInfo.setTerm(term);
+            listInfo.setListContent(result.getListName());
+            listInfo.setValue(result.getListValue());
+            listInfo.setType(type);
+            num += listInfoDao.insertCourseList(listInfo);
+        }
+        return num;
     }
 
 
     @Override
-    @Transactional
     public List<ClassInfoByCourse> queryByCourse(String term, String course, String yzm) {
         List<ClassInfoByCourse> lists = new ArrayList<>();
         //查询本地数据库看是否有数据
         lists = classInfoByCourseDao.queryByKeyWithCourse(term, course);
-        logger.info("term---course:",term+"---"+course);
+        logger.info("term---course:", term + "---" + course);
         if (lists.size() != 0) {
             //本地数据有数据直接返回数据
             return lists;
         } else {
             //本地数据库无数据查找网络端，并返回
+            if(yzm.equals("isNUll")){
+                throw new NoLocalDataException("无本地数据，需要输入验证码");
+            }
             String type = "1";
-
-
             try {
                 String string = urlDataService.getKBFBLessonSel(term, course, type, yzm);
                 lists = htmlParseJsonService.getClassInfo2(string);
                 //往数据库存
-                for (ClassInfoByCourse infoByCourse : lists) {
-                    infoByCourse.setTerm(term);
-                    infoByCourse.setCourse(course);
-                    classInfoByCourseDao.insertCourse(infoByCourse);
-                }
+                int num = insertCourse(term, course, lists);
+                logger.info("insert course num:", num);
             } catch (VerificationException e1) {
                 logger.error("VerificationException");
                 throw new VerificationException("验证码错误");
@@ -121,4 +140,25 @@ public class ClassInfoServiceImpl implements ClassInfoService {
         return lists;
 
     }
+
+    /**
+     * 将课程数据插入数据库
+     *
+     * @param term        学期
+     * @param course      课程id
+     * @param courseLists 插入课程
+     * @return 返回插入数量
+     */
+    @Transactional
+    private int insertCourse(String term, String course, List<ClassInfoByCourse> courseLists) {
+        int num = 0;
+        for (ClassInfoByCourse infoByCourse : courseLists) {
+            infoByCourse.setTerm(term);
+            infoByCourse.setCourse(course);
+            num += classInfoByCourseDao.insertCourse(infoByCourse);
+
+        }
+        return num;
+    }
+
 }

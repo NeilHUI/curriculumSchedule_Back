@@ -1,6 +1,7 @@
 package com.xjtu.service;
 
 import com.xjtu.entity.ClassInfoByCourse;
+import com.xjtu.entity.ListResult;
 
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,7 @@ public interface ClassInfoService {
      * @param type 类型
      * @return 返回列表list
      */
-    Map<String,String> queryList(String term, int type);
+    List<ListResult> queryList(String term, int type);
 
     /**
      * 通过课程查询课表

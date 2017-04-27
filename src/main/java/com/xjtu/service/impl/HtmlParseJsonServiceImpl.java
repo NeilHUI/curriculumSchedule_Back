@@ -1,5 +1,6 @@
 package com.xjtu.service.impl;
 
+import com.xjtu.entity.ListResult;
 import com.xjtu.entity.ClassInfoA;
 import com.xjtu.entity.ClassInfoByCourse;
 import com.xjtu.entity.ClassInfoC;
@@ -10,6 +11,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -21,6 +23,10 @@ import java.util.*;
  */
 @Service
 public class HtmlParseJsonServiceImpl implements HtmlParseJsonService{
+
+    @Autowired
+    private ListResult listResult;
+
     @Override
     public JSONObject getClassInfo1(String fileName) {
         //        File file = new File(fileName);
@@ -250,7 +256,7 @@ public class HtmlParseJsonServiceImpl implements HtmlParseJsonService{
     }
 
     @Override
-    public Map<String, String> optiontoList(String html) {
+    public List<ListResult> optiontoList(String html) {
         Document dname = Jsoup.parse(html);
         Elements script = dname.select("script");
         Document dname1 = Jsoup.parse(script.toString());
@@ -258,11 +264,15 @@ public class HtmlParseJsonServiceImpl implements HtmlParseJsonService{
         Document dname2 = Jsoup.parse(data);
         //System.out.println(dname2.toString());
         Elements script1 = dname2.getElementsByTag("option");
-        Map<String, String> map = new HashMap<String, String>();
+        List<ListResult> lists = new ArrayList<>();
+       // Map<String, String> map = new HashMap<String, String>();
         //将信息存入map中
         for (Element el : script1) {
-            map.put(el.attr("value"), el.text());
+            listResult.setListName(el.attr("value"));
+            listResult.setListValue(el.text());
+            lists.add(listResult);
+            // map.put(el.attr("value"), el.text());
         }
-        return map;
+        return lists;
     }
 }
