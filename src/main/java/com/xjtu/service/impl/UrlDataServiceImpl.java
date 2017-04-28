@@ -19,24 +19,20 @@ import java.util.Date;
 @Service
 public class UrlDataServiceImpl implements UrlDataService {
 
-
-
-    @Autowired
-    private HttpServletRequest request;
-
     public String m_head;
     public String m_cokie;
 
 
-
+    @Autowired
+    private HttpServletRequest request;
     @Override
     public void getClassSelImage(String param) {
         param = param.substring(param.lastIndexOf("src="));
-        System.out.println(">>>>"+param);
-        param = param.substring(param.indexOf("='")+2,param.indexOf("'>"));
-        System.out.println(">>>>"+param);
+        System.out.println(">>>>" + param);
+        param = param.substring(param.indexOf("='") + 2, param.indexOf("'>"));
+        System.out.println(">>>>" + param);
 
-        String u = "http://jwxt.cqtbi.edu.cn/ZNPK/"+param;
+        String u = "http://jwxt.cqtbi.edu.cn/ZNPK/" + param;
         String r = "http://jwxt.cqtbi.edu.cn/ZNPK/KBFB_ClassSel_rpt.aspx";
         _GetImage(m_cokie, u, r);
     }
@@ -50,67 +46,67 @@ public class UrlDataServiceImpl implements UrlDataService {
     }
 
     @Override
-    public void getImage(int index) {
+    public byte[] getImage(int index) {
 
-        String PostData[] = {"KBFB_LessonSel",	//�γ̿α�
-                "TeacherKBFB",		//��ʦ�α�
-                "KBFB_ClassSel",	//�����༶�α�
-                "KBFB_RoomSel"		//���ҿα�
+        String PostData[] = {"KBFB_LessonSel",    //�γ̿α�
+                "TeacherKBFB",        //��ʦ�α�
+                "KBFB_ClassSel",    //�����༶�α�
+                "KBFB_RoomSel"        //���ҿα�
         };
         Date date = new Date();
         long times = date.getTime();
-        String u = m_head+"/sys/ValidateCode.aspx?t="+times;
-        String r = m_head+"/ZNPK/"+PostData[index]+".aspx";
-        _GetImage(m_cokie, u, r);
+        String u = m_head + "/sys/ValidateCode.aspx?t=" + times;
+        String r = m_head + "/ZNPK/" + PostData[index] + ".aspx";
+        return _GetImage(m_cokie, u, r);
     }
 
     @Override
     public String getKBFBRoomSel(String Sel_XNXQ, String rad_gs, String txt_yzm, String Sel_XQ, String Sel_JXL, String Sel_ROOM) {
-        String param = "Sel_XNXQ="+Sel_XNXQ+"&rad_gs="+rad_gs+"&txt_yzm="+txt_yzm+"&Sel_XQ="+Sel_XQ+"&Sel_JXL="+Sel_JXL+"&Sel_ROOM="+Sel_ROOM;
+        String param = "Sel_XNXQ=" + Sel_XNXQ + "&rad_gs=" + rad_gs + "&txt_yzm=" + txt_yzm + "&Sel_XQ=" + Sel_XQ + "&Sel_JXL=" + Sel_JXL + "&Sel_ROOM=" + Sel_ROOM;
         //System.out.println(param);
-        String url = m_head+"/ZNPK/KBFB_RoomSel_rpt.aspx";
-        String r = m_head+"/ZNPK/KBFB_RoomSel.aspx";
+        String url = m_head + "/ZNPK/KBFB_RoomSel_rpt.aspx";
+        String r = m_head + "/ZNPK/KBFB_RoomSel.aspx";
         return _PostFunction(m_cokie, url, r, param);
     }
 
     @Override
     public String getKBFBClassSel(String Sel_XNXQ, String txtxzbj, String Sel_XZBJ, String type, String txt_yzm) {
-        String param = "Sel_XNXQ="+Sel_XNXQ+"&txtxzbj="+txtxzbj+"&Sel_XZBJ="+Sel_XZBJ+"&type="+type+"&txt_yzm="+txt_yzm;
+        String param = "Sel_XNXQ=" + Sel_XNXQ + "&txtxzbj=" + txtxzbj + "&Sel_XZBJ=" + Sel_XZBJ + "&type=" + type + "&txt_yzm=" + txt_yzm;
         //System.out.println(param);
-        String url = m_head+"/ZNPK/KBFB_ClassSel_rpt.aspx";
-        String r = m_head+"/ZNPK/KBFB_ClassSel.aspx";
+        String url = m_head + "/ZNPK/KBFB_ClassSel_rpt.aspx";
+        String r = m_head + "/ZNPK/KBFB_ClassSel.aspx";
         return _PostFunction(m_cokie, url, r, param);
     }
 
     @Override
     public String getTeacherKBFB(String Sel_XNXQ, String Sel_JS, String type, String txt_yzm) {
-        String param = "Sel_XNXQ="+Sel_XNXQ+"&Sel_JS="+Sel_JS+"&type="+type+"&txt_yzm="+txt_yzm;
+        String param = "Sel_XNXQ=" + Sel_XNXQ + "&Sel_JS=" + Sel_JS + "&type=" + type + "&txt_yzm=" + txt_yzm;
         //System.out.println(param);
-        String url = m_head+"/ZNPK/TeacherKBFB_rpt.aspx";
-        String r = m_head+"/ZNPK/TeacherKBFB.aspx";
+        String url = m_head + "/ZNPK/TeacherKBFB_rpt.aspx";
+        String r = m_head + "/ZNPK/TeacherKBFB.aspx";
         return _PostFunction(m_cokie, url, r, param);
     }
 
     @Override
     public String getKBFBLessonSel(String Sel_XNXQ, String Sel_KC, String gs, String txt_yzm) {
-        String param = "Sel_XNXQ="+Sel_XNXQ+"&Sel_KC="+Sel_KC+"&gs="+gs+"&txt_yzm="+txt_yzm;
+        String param = "Sel_XNXQ=" + Sel_XNXQ + "&Sel_KC=" + Sel_KC + "&gs=" + gs + "&txt_yzm=" + txt_yzm;
         //System.out.println(param);
-        String url = m_head+"/ZNPK/KBFB_LessonSel_rpt.aspx";
-        String r = m_head+"/ZNPK/KBFB_LessonSel.aspx";
+        String url = m_head + "/ZNPK/KBFB_LessonSel_rpt.aspx";
+        String r = m_head + "/ZNPK/KBFB_LessonSel.aspx";
         return _PostFunction(m_cokie, url, r, param);
     }
 
     @Override
     public String getListJXL(String w, String id) {
-        String param = "w="+w+"&id="+id;
-        String url = m_head+"/ZNPK/Private/List_JXL.aspx?"+param;
+        String param = "w=" + w + "&id=" + id;
+        String url = m_head + "/ZNPK/Private/List_JXL.aspx?" + param;
         return _GetFunction(m_cokie, url);
     }
 
     @Override
     public String getListROOM(String w, String id) {
-        String param = "w="+w+"&id="+id;
-        String url = m_head+"/ZNPK/Private/List_ROOM.aspx?"+param;
+        String param = "w=" + w + "&id=" + id;
+        String url = m_head + "/ZNPK/Private/List_ROOM.aspx?" + param;
         return _GetFunction(m_cokie, url);
     }
 
@@ -118,29 +114,30 @@ public class UrlDataServiceImpl implements UrlDataService {
     public String getListXZBJClassName(String xnxq, String xzbj) {
         Date date = new Date();
         long times = date.getTime();
-        String param = "xnxq="+xnxq+"&xzbj="+xzbj+"&t="+times;
-        String url = m_head+"/ZNPK/Private/List_XZBJ.aspx?"+param;
+        String param = "xnxq=" + xnxq + "&xzbj=" + xzbj + "&t=" + times;
+        String url = m_head + "/ZNPK/Private/List_XZBJ.aspx?" + param;
         return _GetFunction(m_cokie, url);
     }
 
     @Override
     public String getListXZBJTerm(String flag, String xnxq, String xzbj) {
-        String param = "flag="+flag+"xnxq="+xnxq+"&xzbj="+xzbj;
-        String url = m_head+"/ZNPK/Private/List_XZBJ.aspx?"+param;
+        String param = "flag=" + flag + "xnxq=" + xnxq + "&xzbj=" + xzbj;
+        String url = m_head + "/ZNPK/Private/List_XZBJ.aspx?" + param;
         return _GetFunction(m_cokie, url);
     }
 
     @Override
     public String getTeacherList(String xnxq, String s) {
-        String param = "xnxq="+xnxq+"&js="+s;
-        String url = m_head+"/ZNPK/Private/List_JS.aspx?"+param;
+        String param = "xnxq=" + xnxq + "&js=" + s;
+        //TODO js 变成t
+        String url = m_head + "/ZNPK/Private/List_JS.aspx?" + param;
         return _GetFunction(m_cokie, url);
     }
 
     @Override
     public String getXNXQKC(String xnxq, String kc) {
-        String param = "xnxq="+xnxq+"&kc="+kc;
-        String url = m_head+"/ZNPK/Private/List_XNXQKC.aspx?"+param;
+        String param = "xnxq=" + xnxq + "&kc=" + kc;
+        String url = m_head + "/ZNPK/Private/List_XNXQKC.aspx?" + param;
         return _GetFunction(m_cokie, url);
     }
 
@@ -149,8 +146,7 @@ public class UrlDataServiceImpl implements UrlDataService {
         return m_cokie;
     }
 
-    private String _GetFunction(String cok, String u)
-    {
+    private String _GetFunction(String cok, String u) {
         StringBuilder tmp = null;
         try {
             URL url = new URL(u);
@@ -158,12 +154,11 @@ public class UrlDataServiceImpl implements UrlDataService {
             conn.setRequestProperty("Cookie", cok);
             InputStream in = conn.getInputStream();
 
-            InputStreamReader fo = new InputStreamReader(in,"gbk");
+            InputStreamReader fo = new InputStreamReader(in, "gbk");
             BufferedReader reader = new BufferedReader(fo);
             String context;
             tmp = new StringBuilder();
-            while((context =reader.readLine()) != null)
-            {
+            while ((context = reader.readLine()) != null) {
                 tmp.append(context);
             }
 
@@ -178,8 +173,7 @@ public class UrlDataServiceImpl implements UrlDataService {
         return String.valueOf(tmp);
     }
 
-    private String _PostFunction(String cok, String u, String r, String param)
-    {
+    private String _PostFunction(String cok, String u, String r, String param) {
         StringBuilder tmp = null;
         try {
             URL url = new URL(u);
@@ -196,7 +190,7 @@ public class UrlDataServiceImpl implements UrlDataService {
             //conn.setRequestProperty("Origin", m_head);
             conn.setRequestProperty("Upgrade-Insecure-Requests", "1");
             conn.setRequestProperty("Cookie", cok);
-            conn.setRequestProperty("User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2914.3 Safari/537.36");
+            conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2914.3 Safari/537.36");
             conn.setRequestProperty("Cache-Control", "max-age=0");
 
             PrintWriter out = new PrintWriter(conn.getOutputStream());
@@ -206,12 +200,11 @@ public class UrlDataServiceImpl implements UrlDataService {
 
             InputStream in = conn.getInputStream();
 
-            InputStreamReader fo = new InputStreamReader(in,"gbk");
+            InputStreamReader fo = new InputStreamReader(in, "gbk");
             BufferedReader reader = new BufferedReader(fo);
             String context;
             tmp = new StringBuilder();
-            while((context =reader.readLine()) != null)
-            {
+            while ((context = reader.readLine()) != null) {
                 tmp.append(context);
             }
 
@@ -226,16 +219,15 @@ public class UrlDataServiceImpl implements UrlDataService {
 
 
         String resultString = String.valueOf(tmp);
-        if(resultString.substring(35,40).equals("验证码错误")){
+        if (resultString.substring(35, 40).equals("验证码错误")) {
             throw new VerificationException("验证码错误");
         }
 
         return resultString;
     }
 
-    private String _GetCookie()
-    {
-        String co  = new String();
+    private String _GetCookie() {
+        String co = new String();
         try {
             URL url = new URL(m_head);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -247,13 +239,13 @@ public class UrlDataServiceImpl implements UrlDataService {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        co = co.substring(0,co.indexOf(";"));
+        co = co.substring(0, co.indexOf(";"));
         System.out.println(co);
         return co;
     }
 
-    private void _GetImage(String cok, String u, String r)
-    {
+    private byte[] _GetImage(String cok, String u, String r) {
+        byte[] reallyByte = new byte[1024];
 
         try {
             URL url = new URL(u);
@@ -261,35 +253,51 @@ public class UrlDataServiceImpl implements UrlDataService {
             conn.setRequestProperty("Cookie", cok);
             conn.setRequestProperty("Referer", r);
             InputStream in = conn.getInputStream();
+            byte[] buf = new byte[1024];
+            ByteArrayOutputStream baos=new ByteArrayOutputStream();
+            //定义整数类型对象
+            int number;
+
+
+
+
+            //利用循环方式将图片读完整
+            while((number=in.read(buf, 0, buf.length))>0)
+            {
+                baos.write(buf, 0, number);
+            }
+            //将字节保存到byte[]数组对象中
+            reallyByte=baos.toByteArray();
+
             //Bitmap bitmap = BitmapFactory.decodeStream(in);
             //得到服务器中保存文件的绝对路径
-
-
 
             String filePath = request.getSession().getServletContext().getRealPath("/") + "resources/"
                     + m_cokie+".jpg";
             File file = new File(filePath);
 
-
-
 			/*if (!file.exists()) {
-				file.createNewFile();
+                file.createNewFile();
 			}*/
-
-
+           // System.out.println(in.available());
 
             FileOutputStream fo = new FileOutputStream(file);
-            byte[] buf = new byte[1024];
+
+
+            in.read(buf);
             int length = 0;
             while ((length = in.read(buf, 0, buf.length)) != -1) {
                 fo.write(buf, 0, length);
             }
-            fo.close();
-            fo.close();
+            //fo.close();
+            //fo.close();
+            in.close();
             conn.disconnect();
+
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        return reallyByte;
     }
 }

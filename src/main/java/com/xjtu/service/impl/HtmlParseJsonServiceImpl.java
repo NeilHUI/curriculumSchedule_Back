@@ -1,9 +1,6 @@
 package com.xjtu.service.impl;
 
-import com.xjtu.entity.ListResult;
-import com.xjtu.entity.ClassInfoA;
-import com.xjtu.entity.ClassInfoByCourse;
-import com.xjtu.entity.ClassInfoC;
+import com.xjtu.entity.*;
 import com.xjtu.service.HtmlParseJsonService;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,15 +21,15 @@ import java.util.*;
 @Service
 public class HtmlParseJsonServiceImpl implements HtmlParseJsonService{
 
-    @Autowired
-    private ListResult listResult;
+
+
 
     @Override
-    public JSONObject getClassInfo1(String fileName) {
+    public List<ClassInfoByTeacher> getClassInfo1(String fileName) {
         //        File file = new File(fileName);
         Document dInfo = Jsoup.parse(fileName);
         Elements eInfo = dInfo.select("table").select("tr");
-        ArrayList<ClassInfoC> list = new ArrayList<ClassInfoC>();
+        ArrayList<ClassInfoByTeacher> list = new ArrayList<ClassInfoByTeacher>();
         for (int i = 5; i < eInfo.size(); i++) {
             Elements eInfo1 = eInfo.get(i).select("td");
             if (eInfo1.text().toString().equals("注1：")) {
@@ -41,7 +38,7 @@ public class HtmlParseJsonServiceImpl implements HtmlParseJsonService{
             if (eInfo1.size() == 9) {
                 for (int j = 2; j < eInfo1.size(); j++) {
                     if (eInfo1.get(j).text().length() != 0) {
-                        ClassInfoC classInfo1 = new ClassInfoC();
+                        ClassInfoByTeacher classInfo1 = new ClassInfoByTeacher();
                         classInfo1.setWeek(String.valueOf(j - 1));
                         classInfo1.setLesson(String.valueOf(i - 4));
                         classInfo1.setInfo(eInfo1.get(j).text());
@@ -51,7 +48,7 @@ public class HtmlParseJsonServiceImpl implements HtmlParseJsonService{
             } else {
                 for (int j = 1; j < eInfo1.size(); j++) {
                     if (eInfo1.get(j).text().length() != 0) {
-                        ClassInfoC classInfo1 = new ClassInfoC();
+                        ClassInfoByTeacher classInfo1 = new ClassInfoByTeacher();
                         classInfo1.setWeek(String.valueOf(j));
                         classInfo1.setLesson(String.valueOf(i - 4));
                         classInfo1.setInfo(eInfo1.get(j).text());
@@ -68,7 +65,7 @@ public class HtmlParseJsonServiceImpl implements HtmlParseJsonService{
             System.out.println(classInfo1.getInfo()+"----课程："+classInfo1.getLesson()+"----星期："+classInfo1.getWeek());
         }*/
 
-        //获取部门，教师，性别，职称
+      /*  //获取部门，教师，性别，职称
         String infoTitle;
         if (eInfo.size() >= 3) {
             infoTitle = eInfo.get(3).select("td").text();
@@ -82,8 +79,8 @@ public class HtmlParseJsonServiceImpl implements HtmlParseJsonService{
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        //System.out.println(jsonObject.toString());
-        return jsonObject;
+        //System.out.println(jsonObject.toString());*/
+        return list;
     }
 
     @Override
@@ -267,9 +264,14 @@ public class HtmlParseJsonServiceImpl implements HtmlParseJsonService{
         List<ListResult> lists = new ArrayList<>();
        // Map<String, String> map = new HashMap<String, String>();
         //将信息存入map中
+
+        //跳过第一次空白
+        boolean temp = true;
         for (Element el : script1) {
-            listResult.setListName(el.attr("value"));
-            listResult.setListValue(el.text());
+            if (temp) temp=false;
+            ListResult listResult = new ListResult();
+            listResult.setListName(el.text());
+            listResult.setListValue(el.attr("value"));
             lists.add(listResult);
             // map.put(el.attr("value"), el.text());
         }

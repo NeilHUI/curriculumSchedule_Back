@@ -1,6 +1,7 @@
 package com.xjtu.service;
 
 import com.xjtu.entity.ClassInfoByCourse;
+import com.xjtu.entity.ClassInfoByTeacher;
 import com.xjtu.entity.ListResult;
 import org.json.JSONObject;
 
@@ -19,7 +20,7 @@ public interface HtmlParseJsonService {
      * @param fileName
      * @return
      */
-    JSONObject getClassInfo1(String fileName);
+    List<ClassInfoByTeacher> getClassInfo1(String fileName);
 
 
     /**

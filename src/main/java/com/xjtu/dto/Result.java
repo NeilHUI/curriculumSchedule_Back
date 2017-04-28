@@ -17,6 +17,7 @@ public class Result<T> {
         this.data = data;
     }
 
+
     //错误时的构造器
     public Result(boolean success, String error) {
         this.success = success;

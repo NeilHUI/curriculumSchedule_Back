@@ -21,7 +21,7 @@ public interface ClassInfoByTeacherDao {
      * 查询数据库 返回课程实体
      *
      * @param term
-     * @param tecaher
+     * @param teacher
      * @return
      */
     List<ClassInfoByTeacher> queryByKeyWithTeacher(@Param("term") String term, @Param("teacher") String teacher);

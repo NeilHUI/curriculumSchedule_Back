@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
  * Created by llh.xjtu on 17-4-26.
  * 下拉列表返回类
  */
-@Component
 public class ListResult {
 
     private String ListName;

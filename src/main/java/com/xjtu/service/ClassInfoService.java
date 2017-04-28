@@ -1,6 +1,7 @@
 package com.xjtu.service;
 
 import com.xjtu.entity.ClassInfoByCourse;
+import com.xjtu.entity.ClassInfoByTeacher;
 import com.xjtu.entity.ListResult;
 
 import java.util.List;
@@ -20,6 +21,12 @@ public interface ClassInfoService {
     String code();
 
     /**
+     * 获取验证码
+     * @return
+     */
+    byte[] getVerImg();
+
+    /**
      * 查询列表内容
      * @param term 学期
      * @param type 类型
@@ -35,6 +42,18 @@ public interface ClassInfoService {
      * @return
      */
     List<ClassInfoByCourse> queryByCourse(String term, String course, String yzm);
+
+
+    /**
+     * 通过教师查询课表
+     * @param term
+     * @param teacher
+     * @param yzm
+     * @return
+     */
+    List<ClassInfoByTeacher> queryByTeacher(String term, String teacher, String yzm);
+
+
 
 
 }

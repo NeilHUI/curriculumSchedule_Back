@@ -20,7 +20,7 @@ public interface UrlDataService {
      *
      * @param index
      */
-    void getImage(int index);
+    byte[] getImage(int index);
 
 
     /**
@@ -113,7 +113,7 @@ public interface UrlDataService {
      * 教师课表
      *
      * @param xnxq
-     * @param s
+     * @param s default 149
      * @return
      */
     String getTeacherList(String xnxq, String s);

@@ -21,178 +21,223 @@
     <table id="11" parent="2" name="class_course">
       <Comment>通过课程查询课表</Comment>
     </table>
-    <table id="12" parent="2" name="list_info">
+    <table id="12" parent="2" name="classname_course">
+      <Comment>通过课程名查询课表</Comment>
+    </table>
+    <table id="13" parent="2" name="list_info">
       <Comment>列表信息表</Comment>
     </table>
-    <table id="13" parent="2" name="teacher_course">
+    <table id="14" parent="2" name="teacher_course">
       <Comment>通过教师名查询课表</Comment>
     </table>
-    <column id="14" parent="9" name="book_id">
+    <column id="15" parent="9" name="book_id">
       <Position>1</Position>
       <Comment>图书ID</Comment>
       <DataType>bigint(20)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="15" parent="9" name="student_id">
+    <column id="16" parent="9" name="student_id">
       <Position>2</Position>
       <Comment>学号</Comment>
       <DataType>bigint(20)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="16" parent="9" name="appoint_time">
+    <column id="17" parent="9" name="appoint_time">
       <Position>3</Position>
       <Comment>预约时间</Comment>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
     </column>
-    <index id="17" parent="9" name="idx_appoint_time">
+    <index id="18" parent="9" name="idx_appoint_time">
       <ColNames>appoint_time</ColNames>
     </index>
-    <key id="18" parent="9" name="PRIMARY">
+    <key id="19" parent="9" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>book_id
 student_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="19" parent="10" name="book_id">
+    <column id="20" parent="10" name="book_id">
       <Position>1</Position>
       <Comment>图书ID</Comment>
       <DataType>bigint(20)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="20" parent="10" name="name">
+    <column id="21" parent="10" name="name">
       <Position>2</Position>
       <Comment>图书名称</Comment>
       <DataType>varchar(100)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="21" parent="10" name="number">
+    <column id="22" parent="10" name="number">
       <Position>3</Position>
       <Comment>馆藏数量</Comment>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="22" parent="10" name="PRIMARY">
+    <key id="23" parent="10" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>book_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="23" parent="11" name="class_id">
+    <column id="24" parent="11" name="class_id">
       <Position>1</Position>
       <Comment>课程id</Comment>
       <DataType>bigint(20)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="24" parent="11" name="term">
+    <column id="25" parent="11" name="term">
       <Position>2</Position>
       <Comment>学期</Comment>
       <DataType>varchar(50)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="25" parent="11" name="course">
+    <column id="26" parent="11" name="course">
       <Position>3</Position>
       <Comment>课程名</Comment>
       <DataType>varchar(50)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="26" parent="11" name="week">
+    <column id="27" parent="11" name="week">
       <Position>4</Position>
       <Comment>星期</Comment>
       <DataType>varchar(50)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="27" parent="11" name="lesson">
+    <column id="28" parent="11" name="lesson">
       <Position>5</Position>
       <Comment>节数</Comment>
       <DataType>varchar(50)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="28" parent="11" name="info">
+    <column id="29" parent="11" name="info">
       <Position>6</Position>
       <Comment>课程明细</Comment>
       <DataType>varchar(200)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="29" parent="11" name="PRIMARY">
+    <key id="30" parent="11" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>class_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="30" parent="12" name="list_id">
+    <column id="31" parent="12" name="class_id">
+      <Position>1</Position>
+      <Comment>课程id</Comment>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="32" parent="12" name="term">
+      <Position>2</Position>
+      <Comment>学期</Comment>
+      <DataType>varchar(50)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="33" parent="12" name="classname">
+      <Position>3</Position>
+      <Comment>班级名</Comment>
+      <DataType>varchar(50)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="34" parent="12" name="week">
+      <Position>4</Position>
+      <Comment>星期</Comment>
+      <DataType>varchar(50)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="35" parent="12" name="lesson">
+      <Position>5</Position>
+      <Comment>节数</Comment>
+      <DataType>varchar(50)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="36" parent="12" name="info">
+      <Position>6</Position>
+      <Comment>课程明细</Comment>
+      <DataType>varchar(200)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="37" parent="12" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>class_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="38" parent="13" name="list_id">
       <Position>1</Position>
       <Comment>列表信息id</Comment>
       <DataType>bigint(20)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="31" parent="12" name="term">
+    <column id="39" parent="13" name="term">
       <Position>2</Position>
       <Comment>学期</Comment>
       <DataType>varchar(50)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="32" parent="12" name="list_content">
+    <column id="40" parent="13" name="list_content">
       <Position>3</Position>
       <Comment>课程名</Comment>
       <DataType>varchar(200)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="33" parent="12" name="type">
+    <column id="41" parent="13" name="type">
       <Position>4</Position>
       <Comment>列表类型</Comment>
       <DataType>bigint(20)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="34" parent="12" name="value">
+    <column id="42" parent="13" name="value">
       <Position>5</Position>
       <DataType>varchar(20)|0</DataType>
     </column>
-    <key id="35" parent="12" name="PRIMARY">
+    <key id="43" parent="13" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>list_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="36" parent="13" name="class_id">
+    <column id="44" parent="14" name="class_id">
       <Position>1</Position>
       <Comment>课程id</Comment>
       <DataType>bigint(20)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="37" parent="13" name="term">
+    <column id="45" parent="14" name="term">
       <Position>2</Position>
       <Comment>学期</Comment>
       <DataType>varchar(50)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="38" parent="13" name="teacher">
+    <column id="46" parent="14" name="teacher">
       <Position>3</Position>
       <Comment>教师名</Comment>
       <DataType>varchar(50)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="39" parent="13" name="week">
+    <column id="47" parent="14" name="week">
       <Position>4</Position>
       <Comment>星期</Comment>
       <DataType>varchar(50)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="40" parent="13" name="lesson">
+    <column id="48" parent="14" name="lesson">
       <Position>5</Position>
       <Comment>节数</Comment>
       <DataType>varchar(50)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="41" parent="13" name="info">
+    <column id="49" parent="14" name="info">
       <Position>6</Position>
       <Comment>课程明细</Comment>
       <DataType>varchar(200)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="42" parent="13" name="PRIMARY">
+    <key id="50" parent="14" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>class_id</ColNames>
       <Primary>1</Primary>
