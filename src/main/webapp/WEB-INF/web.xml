@@ -49,15 +49,21 @@
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
 
-
+    <context-param>
+        <param-name>webAppRootKey</param-name>
+        <param-value>web.root</param-value>
+    </context-param>
+    <listener>
+        <listener-class>org.springframework.web.util.WebAppRootListener</listener-class>
+    </listener>
     <!--error page-->
     <error-page>
         <exception-type>java.lang.Throwable</exception-type>
-        <location>/errorPage/500.html</location>
+        <location>/500.html</location>
     </error-page>
     <error-page>
         <error-code>500</error-code>
-        <location>/500.html</location>
+        <location>/404.html</location>
     </error-page>
     <error-page>
         <error-code>404</error-code>

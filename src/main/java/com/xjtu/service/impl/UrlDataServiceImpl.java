@@ -23,8 +23,6 @@ public class UrlDataServiceImpl implements UrlDataService {
     public String m_cokie;
 
 
-    @Autowired
-    private HttpServletRequest request;
     @Override
     public void getClassSelImage(String param) {
         param = param.substring(param.lastIndexOf("src="));
@@ -253,6 +251,8 @@ public class UrlDataServiceImpl implements UrlDataService {
             conn.setRequestProperty("Cookie", cok);
             conn.setRequestProperty("Referer", r);
             InputStream in = conn.getInputStream();
+
+
             byte[] buf = new byte[1024];
             ByteArrayOutputStream baos=new ByteArrayOutputStream();
             //定义整数类型对象
@@ -272,23 +272,23 @@ public class UrlDataServiceImpl implements UrlDataService {
             //Bitmap bitmap = BitmapFactory.decodeStream(in);
             //得到服务器中保存文件的绝对路径
 
-            String filePath = request.getSession().getServletContext().getRealPath("/") + "resources/"
+          /*  String filePath = request.getSession().getServletContext().getRealPath("/") + "resources/"
                     + m_cokie+".jpg";
-            File file = new File(filePath);
+            File file = new File(filePath);*/
 
 			/*if (!file.exists()) {
                 file.createNewFile();
 			}*/
            // System.out.println(in.available());
 
-            FileOutputStream fo = new FileOutputStream(file);
+            /*FileOutputStream fo = new FileOutputStream(file);*/
 
 
-            in.read(buf);
+            /*in.read(buf);
             int length = 0;
             while ((length = in.read(buf, 0, buf.length)) != -1) {
                 fo.write(buf, 0, length);
-            }
+            }*/
             //fo.close();
             //fo.close();
             in.close();
