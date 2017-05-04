@@ -1,8 +1,6 @@
 package com.xjtu.service;
 
-import com.xjtu.entity.ClassInfoByCourse;
-import com.xjtu.entity.ClassInfoByTeacher;
-import com.xjtu.entity.ListResult;
+import com.xjtu.entity.*;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -38,7 +36,7 @@ public interface HtmlParseJsonService {
      * @param fileName
      * @return
      */
-    JSONObject getClassInfo3(String fileName);
+    List<ClassInfoByClass> getClassInfo3(String fileName);
 
 
     /**
@@ -47,7 +45,7 @@ public interface HtmlParseJsonService {
      * @param fileName
      * @return
      */
-    JSONObject getClassInfo4(String fileName);
+    List<ClassInfoByOptional> getClassInfo4(String fileName);
 
 
     /**

@@ -6,7 +6,7 @@ package com.xjtu.enums;
  */
 public enum ListInfoStateEnum {
 
-    COURSE_TYPE(1, "课程信息列表"), TEACHER_TYPE(2, "教师信息列表"),CLASS_TYPE(3, "教室信息列表");
+    COURSE_TYPE(1, "课程信息列表"), TEACHER_TYPE(2, "教师信息列表"),CLASS_TYPE(3, "教室信息列表"),OPTIONAL_TYPE(4, "任选课表信息列表");
 
     private int state;
 

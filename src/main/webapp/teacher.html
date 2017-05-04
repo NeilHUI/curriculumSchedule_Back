@@ -1,6 +1,9 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+
+
+
       <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>教务管理系统</title>
@@ -18,22 +21,22 @@
 
 	<script type="text/javascript">
 	
-
+	<!--全局变量-->
 	var xqxn;
-	var kc;
+	var teacher;
 	var code;
-
+	var ip="ydule.me:80";
+	var code1;
 	$(function(){
 
 <!--11111111111111111111111111111111111111111111111111111111111111111111111111-->
 			<!--学期学年触发课程下拉框-->							
 			$("#sel_XNXQ").change(function(e){
-				<!--清理缓存-->
-<!--*************************************************-->
+				$("#displayCode").css("display","none");
 				xqxn=e.target.value;
 				var obj={	
 							type:"GET",
-							url:"http://192.168.1.107:8080/teacher/"+xqxn+"/teacherList"
+							url:"http://"+ip+"/teacher/"+xqxn+"/teacherList"
 							};
 					
 				$.ajax(obj).done(function(res1){
@@ -44,7 +47,7 @@
 													
 			function createSelect(res1){
 				$("#sel_teacher").empty();
-				var option1="<option>选择老师</option>";
+				var option1="<option selected='selected'>选择教师</option>";
 				$("#sel_teacher").append(option1);
 				for(i=0;i<res1.length;i++){
 					var user=res1[i];
@@ -57,28 +60,37 @@
 <!--222222222222222222222222222222222222222222222222222222222222222222222222-->
 		<!--获取课程信息的触发事件-->
 		$("#sel_teacher").change(function(e){
-			kc=e.target.value;
+			$("#displayCode").css("display","none");
+			teacher=e.target.value;
 			
 		});
 		
 		$("#showLesson").on("click",function(){
+			
+
 			code=$("#text_code").val();
-			if(code.length==0){
+			if(code.length==0||code==code1){
 				code="isNUll";
 			}
+			
+			
+			<!--当每次点击button时，我们刷新table-->
 			$("table tr td").remove();
 
-<!--向服务器发送post请求 data:JSON.stringify({"term":"20161",course:"221918",yzm:"sstx"})强转json文件-->
+
 			var obj={
 				contentType: "application/json; charset=utf-8",              
 				type:"POST",
-				url:"http://192.168.1.107:8080/teacher/queryClassByteacher",
-				data:JSON.stringify({term:xqxn,teacher:kc,yzm:code})
+				url:"http://"+ip+"/teacher/queryClassByTeacher",
+				data:JSON.stringify({term:xqxn,teacher:teacher,yzm:code})
 				};
-
+				code1=code;
+				
 			$.ajax(obj).done(function(res){
 					
 					if(res['success']&&res['error']==null){
+						$("#displayCode").css("display","none");
+						code="";
 						
 						createTable(res['data']);
 					}else{
@@ -87,7 +99,7 @@
 						alert(error);
 						
 						$("#displayCode").css("display","inline");	
-						$("#imgCode").attr("src","http://192.168.1.107:8080/teacher/getVerImg?"+Math.random());
+						$("#imgCode").attr("src","http://"+ip+"/teacher/getVerImg?"+Math.random());
 						return ;
 					}
 					
@@ -148,17 +160,17 @@ font-size: 30px; text-center"> 重庆工商职业技术学院 </div>
                     <img src="assets/img/find_user.png" class="user-image img-responsive"/>
 					</li>
 					
-                    <li>
+                     <li>
                         <a  href="lesson.html" ><i class="fa fa-dashboard fa-3x"></i> 课程课表</a>
                     </li>
                       <li>
                         <a  href="teacher.html" ><i class="fa fa-desktop fa-3x"></i> 教师课表</a>
                     </li>
                     <li>
-                        <a  href="classroom.html" ><i class="fa fa-qrcode fa-3x"></i> 教室课表</a>
+                        <a  href="room.html" ><i class="fa fa-qrcode fa-3x"></i> 教室课表</a>
                     </li>
 						   <li>
-                        <a  href="random.html" ><i class="fa fa-bar-chart-o fa-3x"></i> 任选课表</a>
+                        <a  href="optional.html" ><i class="fa fa-bar-chart-o fa-3x"></i> 任选课表</a>
                     </li>
                        </ul>
                
@@ -173,7 +185,7 @@ font-size: 30px; text-center"> 重庆工商职业技术学院 </div>
                       <h1>教师课表</h1>
 						<div>
 							<tr><td>学期学年&nbsp;<select id="sel_XNXQ" style='WIDTH:165px;height:40px'>
-								<option >选择学年</option>
+								<option selected="selected">选择学年</option>
 								<option value="20161" >2016-2017学年第二学期</option>
 								<option value="20160">2016-2017学年第一学期</option>
 								<option value="20151">2015-2016学年第二学期</option>
@@ -203,16 +215,7 @@ font-size: 30px; text-center"> 重庆工商职业技术学院 </div>
             </div>
          <!-- /. PAGE WRAPPER  -->
         </div>
-     <!-- /. WRAPPER  -->
-    <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
-    <!-- JQUERY SCRIPTS -->
-   <!-- <script src="assets/js/jquery-1.10.2.js"></script>
-      <!-- BOOTSTRAP SCRIPTS -->
-    <!--<script src="assets/js/bootstrap.min.js"></script>
-    <!-- METISMENU SCRIPTS -->
-    <!--<script src="assets/js/jquery.metisMenu.js"></script>
-      <!-- CUSTOM SCRIPTS -->
-    <!--<script src="assets/js/custom.js"></script> -->
+     
     
    
 </body>

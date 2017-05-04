@@ -60,3 +60,19 @@ CREATE TABLE `classname_course` (
   `info`varchar(200) NOT NULL COMMENT '课程明细',
   PRIMARY KEY (`class_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8 COMMENT='通过课程名查询课表';
+
+CREATE TABLE `optional_course` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '课程id',
+  `term` varchar(50) NOT NULL  COMMENT '学期',
+  `school` varchar(50) NOT NULL  COMMENT '学校',
+  `class_id` bigint(20) NOT NULL  COMMENT 'id',
+  `class_name` varchar(200) NOT NULL  COMMENT '课程名',
+  `class_count` varchar(50) NOT NULL  COMMENT '学分',
+  `class_teacher` varchar(50) NOT NULL COMMENT '教师',
+  `class_week` varchar(50) NOT NULL COMMENT '周次',
+  `class_num` varchar(50) NOT NULL COMMENT '上课班号',
+  `class_person` varchar(50) NOT NULL COMMENT '上课人数	',
+  `class_time` varchar(50) NOT NULL COMMENT '时间',
+  `class_room`varchar(50) NOT NULL COMMENT '上课地点',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8 COMMENT='任选课表';

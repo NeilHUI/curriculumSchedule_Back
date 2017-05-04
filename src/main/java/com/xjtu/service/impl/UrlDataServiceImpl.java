@@ -46,10 +46,11 @@ public class UrlDataServiceImpl implements UrlDataService {
     @Override
     public byte[] getImage(int index) {
 
-        String PostData[] = {"KBFB_LessonSel",    //�γ̿α�
-                "TeacherKBFB",        //��ʦ�α�
-                "KBFB_ClassSel",    //�����༶�α�
-                "KBFB_RoomSel"        //���ҿα�
+        String PostData[] = {"KBFB_LessonSel",    //课程课表
+                "TeacherKBFB",        //教师课表
+                "KBFB_ClassSel",    //行政班级课表
+                "KBFB_RoomSel",        //教室课表
+                "KBFB_RXKBSel"        //任选课程
         };
         Date date = new Date();
         long times = date.getTime();
@@ -126,7 +127,8 @@ public class UrlDataServiceImpl implements UrlDataService {
 
     @Override
     public String getTeacherList(String xnxq, String s) {
-        String param = "xnxq=" + xnxq + "&js=" + s;
+        //String param = "xnxq=" + xnxq + "&js=" + s;
+        String param = "xnxq=" + xnxq + "&t=" + s;
         //TODO js 变成t
         String url = m_head + "/ZNPK/Private/List_JS.aspx?" + param;
         return _GetFunction(m_cokie, url);
@@ -169,6 +171,15 @@ public class UrlDataServiceImpl implements UrlDataService {
             e.printStackTrace();
         }
         return String.valueOf(tmp);
+    }
+
+    @Override
+    public String GetRXKBSel(String Sel_XNXQ, String Sel_XQXX, String txt_yzm) {
+        String param = "Sel_XNXQ=" + Sel_XNXQ + "&Sel_XQXX=" + Sel_XQXX + "&txt_yzm=" + txt_yzm;
+        //System.out.println(param);
+        String url = m_head + "/ZNPK/KBFB_RXKBSel_rpt.aspx";
+        String r = m_head + "/ZNPK/KBFB_RXKBSel.aspx";
+        return _PostFunction(m_cokie, url, r, param);
     }
 
     private String _PostFunction(String cok, String u, String r, String param) {
@@ -224,6 +235,7 @@ public class UrlDataServiceImpl implements UrlDataService {
         return resultString;
     }
 
+
     private String _GetCookie() {
         String co = new String();
         try {
@@ -254,20 +266,17 @@ public class UrlDataServiceImpl implements UrlDataService {
 
 
             byte[] buf = new byte[1024];
-            ByteArrayOutputStream baos=new ByteArrayOutputStream();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
             //定义整数类型对象
             int number;
 
 
-
-
             //利用循环方式将图片读完整
-            while((number=in.read(buf, 0, buf.length))>0)
-            {
+            while ((number = in.read(buf, 0, buf.length)) > 0) {
                 baos.write(buf, 0, number);
             }
             //将字节保存到byte[]数组对象中
-            reallyByte=baos.toByteArray();
+            reallyByte = baos.toByteArray();
 
             //Bitmap bitmap = BitmapFactory.decodeStream(in);
             //得到服务器中保存文件的绝对路径
@@ -279,7 +288,7 @@ public class UrlDataServiceImpl implements UrlDataService {
 			/*if (!file.exists()) {
                 file.createNewFile();
 			}*/
-           // System.out.println(in.available());
+            // System.out.println(in.available());
 
             /*FileOutputStream fo = new FileOutputStream(file);*/
 

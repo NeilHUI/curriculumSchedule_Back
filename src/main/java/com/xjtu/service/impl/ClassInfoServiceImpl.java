@@ -1,12 +1,7 @@
 package com.xjtu.service.impl;
 
-import com.xjtu.dao.ClassInfoByCourseDao;
-import com.xjtu.dao.ClassInfoByTeacherDao;
-import com.xjtu.dao.ListInfoDao;
-import com.xjtu.entity.ClassInfoByCourse;
-import com.xjtu.entity.ClassInfoByTeacher;
-import com.xjtu.entity.ListInfo;
-import com.xjtu.entity.ListResult;
+import com.xjtu.dao.*;
+import com.xjtu.entity.*;
 import com.xjtu.enums.ListInfoStateEnum;
 import com.xjtu.exception.NoLocalDataException;
 import com.xjtu.exception.VerificationException;
@@ -37,7 +32,13 @@ public class ClassInfoServiceImpl implements ClassInfoService {
     private ClassInfoByCourseDao classInfoByCourseDao;
 
     @Autowired
+    private ClassInfoByOptionalDao classInfoByOptionalDao;
+
+    @Autowired
     private ClassInfoByTeacherDao classInfoByTeacherDao;
+
+    @Autowired
+    private ClassInfoByClassDao classInfoByClassDao;
 
     @Autowired
     private UrlDataService urlDataService;
@@ -88,10 +89,18 @@ public class ClassInfoServiceImpl implements ClassInfoService {
             switch (type){
                 case 1:
                     string = urlDataService.getXNXQKC(term, "");
+                    break;
                 case 2:
                     string = urlDataService.getTeacherList(term,"");
+                    break;
                 case 3:
                     string = urlDataService.getListROOM(term,"");
+                    break;
+                case 4:
+                   //任选课表学校信息列表，必须从数据库获取
+                    throw new NoLocalDataException("无本地数据");
+                   // string = urlDataService.getListXZBJTerm(term,"");
+
             }
 
             listResults = htmlParseJsonService.optiontoList(string);
@@ -184,11 +193,75 @@ public class ClassInfoServiceImpl implements ClassInfoService {
             String type = "1";
             try {
 
-                String string = urlDataService.getKBFBLessonSel(term, teacher, type, yzm);
+                String string = urlDataService.getTeacherKBFB(term, teacher, type, yzm);
                 lists = htmlParseJsonService.getClassInfo1(string);
                 //往数据库存
                 int num = insertTeacher(term, teacher, lists);
                 logger.info("insert course num:", num);
+            } catch (VerificationException e1) {
+                logger.error("VerificationException");
+                throw new VerificationException("验证码错误");
+
+            }
+
+
+        }
+        return lists;
+    }
+
+    @Override
+    public List<ClassInfoByClass> queryByRoom(String term, String room, String yzm) {
+        List<ClassInfoByClass> lists = new ArrayList<>();
+        //查询本地数据库看是否有数据
+        lists = classInfoByClassDao.queryByKeyWithClass(term, room);
+        logger.info("term---course:", term + "---" + room);
+        if (lists.size() != 0) {
+            //本地数据有数据直接返回数据
+            return lists;
+        } else {
+            //本地数据库无数据查找网络端，并返回
+            if(yzm.equals("isNUll")){
+                throw new NoLocalDataException("无本地数据，需要输入验证码");
+            }
+            String type = "1";
+            try {
+                String string = urlDataService.getKBFBRoomSel(term,type,yzm,"1","101", room);
+                lists = htmlParseJsonService.getClassInfo3(string);
+                //往数据库存
+                int num = insertRoom(term, room, lists);
+                logger.info("insert Room num:", num);
+            } catch (VerificationException e1) {
+                logger.error("VerificationException");
+                throw new VerificationException("验证码错误");
+
+            }
+
+
+        }
+        return lists;
+    }
+
+    @Override
+    public List<ClassInfoByOptional> queryByOptional(String term, String school, String yzm) {
+        List<ClassInfoByOptional> lists = new ArrayList<>();
+        //查询本地数据库看是否有数据
+        lists = classInfoByOptionalDao.queryByKeyWithOptional(term, school);
+        logger.info("term---course:", term + "---" + school);
+        if (lists.size() != 0) {
+            //本地数据有数据直接返回数据
+            return lists;
+        } else {
+            //本地数据库无数据查找网络端，并返回
+            if(yzm.equals("isNUll")){
+                throw new NoLocalDataException("无本地数据，需要输入验证码");
+            }
+            String type = "1";
+            try {
+                String string = urlDataService.GetRXKBSel(term,school,yzm);
+                lists = htmlParseJsonService.getClassInfo4(string);
+                //往数据库存
+                int num = insertOptional(term, school, lists);
+                logger.info("insert optional num:", num);
             } catch (VerificationException e1) {
                 logger.error("VerificationException");
                 throw new VerificationException("验证码错误");
@@ -236,6 +309,39 @@ public class ClassInfoServiceImpl implements ClassInfoService {
             infoByCourse.setTerm(term);
             infoByCourse.setTeacher(teacher);
             num += classInfoByTeacherDao.insertTeacher(infoByCourse);
+
+        }
+        return num;
+    }
+
+    /**
+     * 将教室数据插入数据库
+     *
+     * @param term        学期
+     * @param room      教室id
+     * @param roomLists 插入课程
+     * @return 返回插入数量
+     */
+    @Transactional
+    private int insertRoom(String term, String room, List<ClassInfoByClass> roomLists) {
+        int num = 0;
+        for (ClassInfoByClass infoByClass : roomLists) {
+            infoByClass.setTerm(term);
+            infoByClass.setClassname(room);
+            num += classInfoByClassDao.insertClass(infoByClass);
+
+        }
+        return num;
+    }
+
+
+    @Transactional
+    private int insertOptional(String term, String school, List<ClassInfoByOptional> roomLists) {
+        int num = 0;
+        for (ClassInfoByOptional infoByClass : roomLists) {
+            infoByClass.setTerm(term);
+            infoByClass.setSchool(school);
+            num += classInfoByOptionalDao.insertCourse(infoByClass);
 
         }
         return num;

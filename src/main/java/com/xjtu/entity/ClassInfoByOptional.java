@@ -1,12 +1,13 @@
 package com.xjtu.entity;
 
 /**
- * Created by llh.xjtu on 17-4-24.
- * 任选课表类
- *
- * //TODO去掉
+ * Created by llh.xjtu on 17-5-1.
  */
-public class ClassInfoA {
+public class ClassInfoByOptional {
+    //学期
+    private String term;
+
+    private String school;
 
     private String classId; //序号
 
@@ -27,15 +28,14 @@ public class ClassInfoA {
     private String classRoom; //上课地点
 
 
-
     public String getClassTeacher() {
         return classTeacher;
     }
 
     public void setClassTeacher(String classTeacher) {
-        if(classTeacher.length()==0){
-            this.classTeacher="同上";
-        }else
+        if (classTeacher.length() == 0) {
+            this.classTeacher = "同上";
+        } else
             this.classTeacher = classTeacher;
     }
 
@@ -43,14 +43,30 @@ public class ClassInfoA {
         return classWeek;
     }
 
+
+    public String getSchool() {
+        return school;
+    }
+
+    public void setSchool(String school) {
+        this.school = school;
+    }
+
     public void setClassWeek(String classWeek) {
-        if(classWeek.length()==0){
-            this.classWeek="同上";
-        }else
+        if (classWeek.length() == 0) {
+            this.classWeek = "同上";
+        } else
             this.classWeek = classWeek;
     }
 
 
+    public String getTerm() {
+        return term;
+    }
+
+    public void setTerm(String term) {
+        this.term = term;
+    }
 
     public String getClassId() {
         return classId;
@@ -65,9 +81,9 @@ public class ClassInfoA {
     }
 
     public void setClassName(String className) {
-        if(className.length()==0){
-            this.className="同上";
-        }else
+        if (className.length() == 0) {
+            this.className = "同上";
+        } else
             this.className = className;
     }
 
@@ -77,13 +93,11 @@ public class ClassInfoA {
     }
 
     public void setClassCount(String classCount) {
-        if (classCount.length()==0){
-            this.classCount="同上";
-        }else
+        if (classCount.length() == 0) {
+            this.classCount = "同上";
+        } else
             this.classCount = classCount;
     }
-
-
 
 
     public String getClassNum() {
@@ -91,12 +105,11 @@ public class ClassInfoA {
     }
 
     public void setClassNum(String classNum) {
-        if(classNum.length()==0){
-            this.classNum="同上";
-        }else
+        if (classNum.length() == 0) {
+            this.classNum = "同上";
+        } else
             this.classNum = classNum;
     }
-
 
 
     public String getClassPerson() {
@@ -104,9 +117,9 @@ public class ClassInfoA {
     }
 
     public void setClassPerson(String classPerson) {
-        if(classPerson.length()==0){
-            this.classPerson="同上";
-        }else
+        if (classPerson.length() == 0) {
+            this.classPerson = "同上";
+        } else
             this.classPerson = classPerson;
     }
 
@@ -115,9 +128,9 @@ public class ClassInfoA {
     }
 
     public void setClassTime(String classTime) {
-        if(classTime.length()==0){
-            this.classTime="同上";
-        }else
+        if (classTime.length() == 0) {
+            this.classTime = "同上";
+        } else
             this.classTime = classTime;
     }
 
@@ -126,9 +139,9 @@ public class ClassInfoA {
     }
 
     public void setClassRoom(String classRoom) {
-        if(classRoom.length()==0){
-            this.classRoom="同上";
-        }else
+        if (classRoom.length() == 0) {
+            this.classRoom = "同上";
+        } else
             this.classRoom = classRoom;
     }
 

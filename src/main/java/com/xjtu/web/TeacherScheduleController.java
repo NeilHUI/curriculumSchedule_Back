@@ -27,7 +27,7 @@ import java.util.Map;
 @RequestMapping("/teacher")
 public class TeacherScheduleController {
 
-    private Logger logger = LoggerFactory.getLogger(QueryScheduleController.class);
+    private Logger logger = LoggerFactory.getLogger(TeacherScheduleController.class);
 
 
     @Autowired
@@ -48,6 +48,11 @@ public class TeacherScheduleController {
     }
 
 
+    /**
+     * 查询教师具体课程
+     * @param obj 传入json文件，包括term teacher yzm
+     * @return 返回list json的课表信息
+     */
     @ResponseBody
     @RequestMapping(value = "/queryClassByTeacher",
             method = RequestMethod.POST,
@@ -76,6 +81,11 @@ public class TeacherScheduleController {
         return new Result<List<ClassInfoByTeacher>>(true, listResult);
     }
 
+    /**
+     * 获取验证码
+     * @param response
+     * @throws IOException
+     */
     @ResponseBody
     @RequestMapping(value = "/getVerImg", method = RequestMethod.GET)
     private void getVerImg(HttpServletResponse response) throws IOException {

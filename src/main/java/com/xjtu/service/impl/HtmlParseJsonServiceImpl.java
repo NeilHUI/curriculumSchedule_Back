@@ -146,12 +146,12 @@ public class HtmlParseJsonServiceImpl implements HtmlParseJsonService{
     }
 
     @Override
-    public JSONObject getClassInfo3(String fileName) {
+    public List<ClassInfoByClass> getClassInfo3(String fileName) {
         //        File file = new File(fileName);
 //        Document dInfo = Jsoup.parse(file, "UTF-8");
         Document dInfo = Jsoup.parse(fileName);
         Elements eInfo = dInfo.select("table").select("tr");
-        ArrayList<ClassInfoC> list = new ArrayList<ClassInfoC>();
+        ArrayList<ClassInfoByClass> list = new ArrayList<ClassInfoByClass>();
         for (int i = 5; i < eInfo.size(); i++) {
             Elements eInfo1 = eInfo.get(i).select("td");
             if (eInfo1.text().toString().equals("注1：")) {
@@ -160,7 +160,7 @@ public class HtmlParseJsonServiceImpl implements HtmlParseJsonService{
             if (eInfo1.size() == 9) {
                 for (int j = 2; j < eInfo1.size(); j++) {
                     if (eInfo1.get(j).text().length() != 0) {
-                        ClassInfoC classInfo1 = new ClassInfoC();
+                        ClassInfoByClass classInfo1 = new ClassInfoByClass();
                         classInfo1.setWeek(String.valueOf(j - 1));
                         classInfo1.setLesson(String.valueOf(i - 4));
                         classInfo1.setInfo(eInfo1.get(j).text());
@@ -170,7 +170,7 @@ public class HtmlParseJsonServiceImpl implements HtmlParseJsonService{
             } else {
                 for (int j = 1; j < eInfo1.size(); j++) {
                     if (eInfo1.get(j).text().length() != 0) {
-                        ClassInfoC classInfo1 = new ClassInfoC();
+                        ClassInfoByClass classInfo1 = new ClassInfoByClass();
                         classInfo1.setWeek(String.valueOf(j));
                         classInfo1.setLesson(String.valueOf(i - 4));
                         classInfo1.setInfo(eInfo1.get(j).text());
@@ -187,7 +187,7 @@ public class HtmlParseJsonServiceImpl implements HtmlParseJsonService{
             System.out.println(classInfo1.getInfo()+"----课程："+classInfo1.getLesson()+"----星期："+classInfo1.getWeek());
         }*/
 
-        //获取部门，教师，性别，职称
+        /*//获取部门，教师，性别，职称
         String infoTitle = "";
         try {
             infoTitle = eInfo.get(3).select("td").text();
@@ -202,19 +202,21 @@ public class HtmlParseJsonServiceImpl implements HtmlParseJsonService{
             e.printStackTrace();
         }
         //System.out.println(jsonObject.toString());
-        return jsonObject;
+        return jsonObject;*/
+
+        return list;
     }
 
     @Override
-    public JSONObject getClassInfo4(String fileName) {
+    public List<ClassInfoByOptional> getClassInfo4(String fileName) {
         //        File file = new File(fileName);
 //        Document dInfo = Jsoup.parse(file, "UTF-8");
         Document dInfo = Jsoup.parse(fileName);
         Elements eInfo = dInfo.select("table").select("tr");
-        ArrayList<ClassInfoA> list = new ArrayList<ClassInfoA>();
-        for (int i = 5; i < eInfo.size(); i++) {
+        ArrayList<ClassInfoByOptional> list = new ArrayList<ClassInfoByOptional>();
+        for (int i = 4; i < eInfo.size(); i++) {
             Elements eInfo1 = eInfo.get(i).select("td");
-            ClassInfoA classInfo = new ClassInfoA();
+            ClassInfoByOptional classInfo = new ClassInfoByOptional();
             classInfo.setClassId(eInfo1.get(0).text());
             classInfo.setClassName(eInfo1.get(1).text());
             classInfo.setClassCount(eInfo1.get(2).text());
@@ -235,7 +237,7 @@ public class HtmlParseJsonServiceImpl implements HtmlParseJsonService{
         }*/
 
         //获取部门，教师，性别，职称
-        String infoTitle = "";
+        /*String infoTitle = "";
         try {
             infoTitle = eInfo.get(3).select("td").text();
         } catch (Exception e) {
@@ -247,9 +249,9 @@ public class HtmlParseJsonServiceImpl implements HtmlParseJsonService{
             jsonObject.put(infoTitle, list);
         } catch (JSONException e) {
             e.printStackTrace();
-        }
+        }*/
         //System.out.println(jsonObject.toString());
-        return jsonObject;
+        return list;
     }
 
     @Override

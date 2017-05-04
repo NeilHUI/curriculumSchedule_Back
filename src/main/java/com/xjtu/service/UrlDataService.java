@@ -24,14 +24,25 @@ public interface UrlDataService {
 
 
     /**
+     * 任选课表
+     * @param Sel_XNXQ 学期
+     * @param Sel_XQXX 校区
+     * @param txt_yzm 验证码
+     * @return
+     */
+
+    public String GetRXKBSel(String Sel_XNXQ, String Sel_XQXX, String txt_yzm);
+
+
+    /**
      * 通过教室查询
      *
-     * @param Sel_XNXQ
-     * @param rad_gs
+     * @param Sel_XNXQ 学期
+     * @param rad_gs   格式
      * @param txt_yzm  验证码
-     * @param Sel_XQ
-     * @param Sel_JXL
-     * @param Sel_ROOM
+     * @param Sel_XQ   校区
+     * @param Sel_JXL  教学楼
+     * @param Sel_ROOM 教室编号
      * @return
      */
     String getKBFBRoomSel(String Sel_XNXQ, String rad_gs, String txt_yzm, String Sel_XQ, String Sel_JXL, String Sel_ROOM);
@@ -113,7 +124,7 @@ public interface UrlDataService {
      * 教师课表
      *
      * @param xnxq
-     * @param s default 149
+     * @param s    default 149
      * @return
      */
     String getTeacherList(String xnxq, String s);
@@ -129,6 +140,7 @@ public interface UrlDataService {
 
     /**
      * 获得sessionID
+     *
      * @return
      */
     String getSessionId();

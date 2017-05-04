@@ -23,19 +23,20 @@
 	
 	<!--全局变量-->
 	var xqxn;
-	var kc;
+	var room;
 	var code;
-	var ip="ydule.me:80";
+	var ip="ydule.me";
 	var code1;
 	$(function(){
 
+<!--11111111111111111111111111111111111111111111111111111111111111111111111111-->
 			<!--学期学年触发课程下拉框-->							
 			$("#sel_XNXQ").change(function(e){
 				$("#displayCode").css("display","none");
 				xqxn=e.target.value;
 				var obj={	
 							type:"GET",
-							url:"http://"+ip+"/course/"+xqxn+"/courseList"
+							url:"http://"+ip+"/room/"+xqxn+"/roomList"
 							};
 					
 				$.ajax(obj).done(function(res1){
@@ -45,22 +46,22 @@
 			});
 													
 			function createSelect(res1){
-				$("#sel_kc").empty();
-				var option1="<option selected='selected'>选择课程</option>";
-				$("#sel_kc").append(option1);
+				$("#sel_room").empty();
+				var option1="<option selected='selected'>选择教室</option>";
+				$("#sel_room").append(option1);
 				for(i=0;i<res1.length;i++){
 					var user=res1[i];
 					var option="<option value="+user.listValue+">"+user.listName+"</option>";
-					$("#sel_kc").append(option);	
+					$("#sel_room").append(option);	
 				}
 				
 			}
 
 <!--222222222222222222222222222222222222222222222222222222222222222222222222-->
 		<!--获取课程信息的触发事件-->
-		$("#sel_kc").change(function(e){
+		$("#sel_room").change(function(e){
 			$("#displayCode").css("display","none");
-			kc=e.target.value;
+			room=e.target.value;
 			
 		});
 		
@@ -76,12 +77,12 @@
 			<!--当每次点击button时，我们刷新table-->
 			$("table tr td").remove();
 
-<!--发送post请求 data:JSON.stringify({"term":"20161",course:"221918",yzm:"sstx"})强转json文件-->
+<!--向服务器发送post请求 data:JSON.stringify({"term":"20161",room:"221918",yzm:"sstx"})强转json文件-->
 			var obj={
 				contentType: "application/json; charset=utf-8",              
 				type:"POST",
-				url:"http://"+ip+"/course/queryClassByCourse",
-				data:JSON.stringify({term:xqxn,course:kc,yzm:code})
+				url:"http://"+ip+"/room/queryClassByRoom",
+				data:JSON.stringify({term:xqxn,room:room,yzm:code})
 				};
 				code1=code;
 			$.ajax(obj).done(function(res){
@@ -97,7 +98,7 @@
 						alert(error);
 						
 						$("#displayCode").css("display","inline");	
-						$("#imgCode").attr("src","http://"+ip+"/course/getVerImg?"+Math.random());
+						$("#imgCode").attr("src","http://"+ip+"/room/getVerImg?"+Math.random());
 						return ;
 					}
 					
@@ -180,18 +181,14 @@ font-size: 30px; text-center"> 重庆工商职业技术学院 </div>
             <div id="page-inner">
                 <div class="row">
                     <div class="col-md-12 text-center" >
-                      <h1>课程课表</h1>
+                      <h1>教室课表</h1>
 						<div>
 							<tr><td>学期学年&nbsp;<select id="sel_XNXQ" style='WIDTH:165px;height:40px'>
-								<option selected="selected">选择学年</option>
+								<option >选择学年</option>
 								<option value="20161" >2016-2017学年第二学期</option>
-								<option value="20160">2016-2017学年第一学期</option>
-								<option value="20151">2015-2016学年第二学期</option>
-								<option value="20150">2015-2016学年第一学期</option>
-								<option value="20141">2014-2015学年第二学期</option>
-								<option value="20140">2014-2015学年第一学期</option>							
+													
 							</select></td>
-							<td>&nbsp;课程：<select name="sel_kc" id="sel_kc" style='WIDTH:165px;height:40px'>
+							<td>&nbsp;教室：<select name="sel_room" id="sel_room" style='WIDTH:165px;height:40px'>
 							</select>&nbsp;</td>
 							<p style="display:none" id="displayCode"><td id="hideYzm">验证码：<input type="text" id="text_code" style="WIDTH:100px;height:40px;color:'#999'" onclick="this.value=''"/></td>&nbsp;<td><img id="imgCode" src="" style="height:40px"></p><button class="btn btn-info btn-lg" id="showLesson" onclick="onlyone(this)">查看</button></td></tr>
 							
