@@ -67,6 +67,9 @@ public class OptionalScheduleController {
         }*/
         try {
             listResult = classInfoService.queryByOptional(term, school, yzm);
+            if (listResult.size() == 0){
+                return new Result<>(false,"数据为空～T-T");
+            }
         } catch (VerificationException e1) {
             return new Result<>(false,"验证码错误");
         } catch (NoLocalDataException e2) {

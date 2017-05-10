@@ -67,6 +67,9 @@ public class TeacherScheduleController {
         }*/
         try {
             listResult = classInfoService.queryByTeacher(term, teacher, yzm);
+            if (listResult.size() == 0){
+                return new Result<>(false,"数据为空～T-T");
+            }
         } catch (VerificationException e1) {
             return new Result<>(false,"验证码错误");
         } catch (NoLocalDataException e2) {
